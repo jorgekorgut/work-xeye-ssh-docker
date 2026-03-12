@@ -1,0 +1,12 @@
+services:
+  vnc-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vnc-app
+    environment:
+      DISPLAY: ":1"
+    ports:
+      - "5901:5901"
+    volumes:
+      - ./vnc-data:/root/.vnc

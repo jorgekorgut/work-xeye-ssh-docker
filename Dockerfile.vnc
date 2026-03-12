@@ -1,0 +1,17 @@
+FROM ubuntu:22.04
+
+# Install virtual X server, lightweight desktop, and VNC server
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    x11vnc \
+    xvfb \
+    fluxbox \
+    xterm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set password for VNC
+RUN mkdir -p /root/.vnc && x11vnc -storepasswd 1234 /root/.vnc/passwd
+
+EXPOSE 5901
+
+# Start virtual X server, desktop, and VNC on :1
+CMD ["/bin/bash", "-lc", "mkdir -p /root/.vnc && [ -f /root/.vnc/passwd ] || x11vnc -storepasswd 1234 /root/.vnc/passwd; Xvfb :1 -screen 0 1024x768x24 & fluxbox & xterm & x11vnc -display :1 -rfbport 5901 -rfbauth /root/.vnc/passwd -forever -shared"]
