@@ -4,30 +4,15 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: test
-    #user: "1000:1000"
     environment:
-      # socat TCP:localhost:6010 UNIX-LISTEN:/tmp/.X11-unix/X10,fork,mode=777
-      #- DISPLAY=:10
+      - XAUTH=${XAUTH:-/tmp/.docker.xauth} # This variable is set in the docker-x11-forward.sh
       - DISPLAY=${DISPLAY}
-      #- DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=${XAUTH}
-      #- XAUTHORITY=/root/.Xauthority Does not work
-      # Change X11 Use localhost does not work. (/etc/ssh/sshd_config)
-      #extra_hosts:
-      #  - "host.docker.internal:host-gateway"
+      - XAUTHORITY=${XAUTH:-/tmp/.docker.xauth}
     volumes:
-      - ${XAUTH}:${XAUTH}
-      #- $HOME/docker-test-host/.docker.xauth:/tmp/.docker.xauth:ro
-      #- /etc/group:/etc/group:ro
-      #- /etc/passwd:/etc/passwd:ro
-      #- /tmp/.X11-unix:/tmp/.X11-unix:rw
-      #- $HOME/.Xauthority:/root/.Xauthority:rw
+      - ${XAUTH:-/tmp/.docker.xauth}:${XAUTH:-/tmp/.docker.xauth}
     networks:
       - ros_network
-    # network_mode: host
-    # ports:
-    #   - 6011:6010
 
 networks:
   ros_network:
