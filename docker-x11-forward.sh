@@ -23,5 +23,3 @@ sudo ufw allow from "$SUBNET_CIDR" to any port "$TCPPORT" proto tcp
 
 # Set the display address inside the container. (if we use a different network_mode than host, localhost does not point to the host machine)
 DISPLAY=$(echo "$DISPLAY" | sed "s/^[^:]*\(.*\)/$DOCKER_HOST_IP\1/")
-
-docker compose up -d

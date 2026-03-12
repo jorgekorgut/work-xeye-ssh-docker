@@ -5,12 +5,12 @@ services:
       dockerfile: Dockerfile
     container_name: test
     environment:
-      - XAUTH=${XAUTH:-/tmp/.docker.xauth} # This variable is set in the docker-x11-forward.sh
+      - XAUTH=${XAUTH:?Please source ./docker-x11-forward.sh before launching the container}
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=${XAUTH:-/tmp/.docker.xauth}
+      - XAUTHORITY=${XAUTH}
     volumes:
-      - ${XAUTH:-/tmp/.docker.xauth}:${XAUTH:-/tmp/.docker.xauth}
+      - ${XAUTH}:${XAUTH}
     networks:
       - ros_network
 
