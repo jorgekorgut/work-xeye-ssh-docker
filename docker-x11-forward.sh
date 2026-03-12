@@ -13,6 +13,7 @@ SUBNET_CIDR=$(docker network inspect bridge --format '{{(index .IPAM.Config 0).S
 
 # Add authorization to container for communication through XServer
 export XAUTH=/tmp/.docker.xauth
+mkdir -p "$(dirname "$XAUTH")" && touch "$XAUTH"
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | sudo xauth -f $XAUTH nmerge -
 sudo chmod 777 $XAUTH # Todo: The permissions could be reduced
 
